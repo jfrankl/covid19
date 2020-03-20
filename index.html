@@ -3,32 +3,9 @@
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
-    <title>Rural Access Index — Built by Azavea</title>
+    <title>COVID Care Map —</title>
     <meta name="description" content="" />
 
-    <link
-      rel="apple-touch-icon"
-      sizes="180x180"
-      href="img/favicon/apple-touch-icon.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="32x32"
-      href="img/favicon/favicon-32x32.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="16x16"
-      href="img/favicon/favicon-16x16.png"
-    />
-    <link rel="manifest" href="img/favicon/manifest.json" />
-    <link
-      rel="mask-icon"
-      href="img/favicon/safari-pinned-tab.svg"
-      color="#3174a3"
-    />
     <meta name="theme-color" content="#ffffff" />
 
     <link rel="stylesheet" href="css/normalize.css" />
@@ -37,6 +14,11 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/fontello.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;800&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body id="body">
     <!--[if lte IE 9]>
@@ -46,21 +28,112 @@
         your experience and security.
       </p>
     <![endif]-->
-    <div class="sidebar">
-      <h1>Health System Capacity / COVID-19</h1>
-      <p class="large">
-        A quick one sentence description about what this project adds to the
-        work around COVID-19.
-      </p>
-      <p>
-        We can say more about the methodology here. Lorem ipsum dolor sit amet,
-        consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
-        et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-        exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-      </p>
+    <div class="app">
+      <div class="sidebar">
+        <div class="content">
+          <img
+            src="/img/covidcaremap-logo.png"
+            alt="COVIDCareMap"
+            height="28"
+          />
+          <p class="large">
+            We are mapping existing and forecasted health system capacity gaps
+            for beds, staffing, ventilators, supplies to care for surging
+            numbers of COVID19 patients.
+          </p>
+          <p>
+            We can say more about the methodology here. Lorem ipsum dolor sit
+            amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt
+            ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+            nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+            consequat.
+          </p>
+          <hr />
+          <div class="links">
+            <a href="#" class="link">
+              <div class="icon"><i class="icon-download"></i></div>
+              <div class="text">Download data</div>
+            </a>
+            <a href="#" class="link">
+              <div class="icon"><i class="icon-question-circle"></i></div>
+              <div class="text">Read our methodology</div>
+            </a>
+            <a href="#" class="link">
+              <div class="icon"><i class="icon-github"></i></div>
+              <div class="text">Contribute code</div>
+            </a>
+          </div>
+          <!--    <hr />
+        <h2>Indicator</h2> -->
+          <!-- <div class="menu" id="indicator">
+          <button class="active" onclick="setIndicator('beds')">
+            Estimated Beds
+          </button>
+          <button onclick="setIndicator('vent')">
+            Additional ventilators required
+          </button>
+          <button onclick="setIndicator('physicians')">
+            Physicians required
+          </button>
+          <button onclick="setIndicator('rt')">
+            Resp. therapists required
+          </button>
+          <button onclick="setIndicator('nurses')">
+            Nurses required
+          </button>
+        </div> -->
+        </div>
+      </div>
+      <div class="visualization">
+        <div class="options-container">
+          <div class="primary-options">
+            <span class="menu" id="aggregation">
+              <b>Type</b>
+              <button onclick="setType('state')">State</button>
+              <button class="active" onclick="setType('county')">County</button>
+              <button onclick="setType('facility')">Facility</button>
+            </span>
+            <span class="menu" id="scenario">
+              <b>Scenario</b>
+              <button class="active" onclick="setScenario('conventional')">
+                Conventional
+              </button>
+              <button onclick="setScenario('contingency')">Contingency</button>
+              <button onclick="setScenario('crisis')">Crisis</button>
+            </span>
+          </div>
+        </div>
+        <div class="map-container">
+          <div class="map-options menu" id="indicator">
+            <button class="active" onclick="setIndicator('beds')">
+              Estimated Beds
+            </button>
+            <button onclick="setIndicator('vent')">
+              Additional ventilators required
+            </button>
+            <button onclick="setIndicator('physicians')">
+              Physicians required
+            </button>
+            <button onclick="setIndicator('rt')">
+              Resp. therapists required
+            </button>
+            <button onclick="setIndicator('nurses')">
+              Nurses required
+            </button>
+          </div>
+          <div class="map" id="map">
+            <div class="legend">
+              <div id="legend-min"></div>
+              <div id="colors"></div>
+              <div id="legend-max"></div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="map" id="map"></div>
     <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v1.5.0/mapbox-gl.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/tippy-bundle.umd.min.js"></script>
   </body>
 </html>
