@@ -1,0 +1,28 @@
+# Ansible
+deployment/ansible/roles/azavea.*
+*.retry
+
+# Vagrant
+.vagrant
+
+# Jekyll
+_site
+_drafts
+.sass-cache
+.jekyll-metadata
+.bundle
+.gem
+/vendor/bundle
+
+# OSX
+.DS_Store
+
+# Project-specific data
+data/
+*.geojson
+*.pbf
+*.mbtiles
+*.mbt
+
+# Generated demos
+demos/_building-footprint-elevations
