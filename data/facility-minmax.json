@@ -1,0 +1,98 @@
+{
+  "Estimated Beds Available (Conventional) - Lower": [
+    -40,
+    331
+  ],
+  "Estimated Additional Ventilators Required (Conventional) - Lower": [
+    0,
+    0
+  ],
+  "Physicians Required to Staff Beds (Conventional) - Lower": [
+    1,
+    7
+  ],
+  "Physicians Required to Staff Beds (Conventional) - Upper": [
+    1,
+    11
+  ],
+  "Respiratory Therapists Required to Staff Beds (Conventional) - Lower": [
+    1,
+    18
+  ],
+  "Respiratory Therapists Required to Staff Beds (Conventional) - Upper": [
+    1,
+    27
+  ],
+  "Critical Care Nurses Required to Staff Beds (Conventional) - Lower": [
+    1,
+    108
+  ],
+  "Critical Care Nurses Required to Staff Beds (Conventional) - Upper": [
+    1,
+    108
+  ],
+  "Estimated Beds Available (Contingency) - Lower": [
+    -127,
+    1058
+  ],
+  "Estimated Additional Ventilators Required (Contingency) - Lower": [
+    0,
+    0
+  ],
+  "Physicians Required to Staff Beds (Contingency) - Lower": [
+    1,
+    23
+  ],
+  "Physicians Required to Staff Beds (Contingency) - Upper": [
+    1,
+    35
+  ],
+  "Respiratory Therapists Required to Staff Beds (Contingency) - Lower": [
+    1,
+    38
+  ],
+  "Respiratory Therapists Required to Staff Beds (Contingency) - Upper": [
+    1,
+    49
+  ],
+  "Critical Care Nurses Required to Staff Beds (Contingency) - Lower": [
+    1,
+    173
+  ],
+  "Critical Care Nurses Required to Staff Beds (Contingency) - Upper": [
+    1,
+    173
+  ],
+  "Estimated Beds Available (Crisis) - Lower": [
+    -2,
+    328
+  ],
+  "Estimated Additional Ventilators Required (Crisis) - Lower": [
+    0,
+    0
+  ],
+  "Physicians Required to Staff Beds (Crisis) - Lower": [
+    1,
+    4
+  ],
+  "Physicians Required to Staff Beds (Crisis) - Upper": [
+    1,
+    4
+  ],
+  "Respiratory Therapists Required to Staff Beds (Crisis) - Lower": [
+    1,
+    18
+  ],
+  "Respiratory Therapists Required to Staff Beds (Crisis) - Upper": [
+    1,
+    27
+  ],
+  "Critical Care Nurses Required to Staff Beds (Crisis) - Lower": [
+    1,
+    106
+  ],
+  "Critical Care Nurses Required to Staff Beds (Crisis) - Upper": [
+    1,
+    106
+  ]
+}
