@@ -336,8 +336,6 @@ map.on("load", function() {
       facility: data[3]
     };
 
-    console.log(minMax);
-
     map.addSource("boundaries", {
       type: "vector",
       tiles: [window.location.origin + "/data/tiles/{z}/{x}/{y}.pbf"],

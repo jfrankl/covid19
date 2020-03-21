@@ -3,7 +3,3 @@
 
 # Project-specific data
 process/
-*.geojson
-*.pbf
-*.mbtiles
-*.mbt

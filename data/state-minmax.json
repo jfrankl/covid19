@@ -23,19 +23,19 @@
     13,
     687
   ],
-  "Respiratory Therapists Required to Staff Beds (Conventional) - Lower": [
+  "Respiratory Therapist Required to Staff Beds (Conventional) - Lower": [
     13,
     687
   ],
-  "Respiratory Therapists Required to Staff Beds (Conventional) - Upper": [
+  "Respiratory Therapist Required to Staff Beds (Conventional) - Upper": [
     13,
     691
   ],
-  "Critical Care Nurses Required to Staff Beds (Conventional) - Lower": [
+  "Critical Care Nurse Required to Staff Beds (Conventional) - Lower": [
     13,
     691
   ],
-  "Critical Care Nurses Required to Staff Beds (Conventional) - Upper": [
+  "Critical Care Nurse Required to Staff Beds (Conventional) - Upper": [
     17,
     777
   ],
@@ -63,19 +63,19 @@
     13,
     696
   ],
-  "Respiratory Therapists Required to Staff Beds (Contingency) - Lower": [
+  "Respiratory Therapist Required to Staff Beds (Contingency) - Lower": [
     13,
     687
   ],
-  "Respiratory Therapists Required to Staff Beds (Contingency) - Upper": [
+  "Respiratory Therapist Required to Staff Beds (Contingency) - Upper": [
     14,
     707
   ],
-  "Critical Care Nurses Required to Staff Beds (Contingency) - Lower": [
+  "Critical Care Nurse Required to Staff Beds (Contingency) - Lower": [
     14,
     699
   ],
-  "Critical Care Nurses Required to Staff Beds (Contingency) - Upper": [
+  "Critical Care Nurse Required to Staff Beds (Contingency) - Upper": [
     18,
     885
   ],
@@ -103,19 +103,19 @@
     13,
     693
   ],
-  "Respiratory Therapists Required to Staff Beds (Crisis) - Lower": [
+  "Respiratory Therapist Required to Staff Beds (Crisis) - Lower": [
     13,
     693
   ],
-  "Respiratory Therapists Required to Staff Beds (Crisis) - Upper": [
+  "Respiratory Therapist Required to Staff Beds (Crisis) - Upper": [
     19,
     978
   ],
-  "Critical Care Nurses Required to Staff Beds (Crisis) - Lower": [
+  "Critical Care Nurse Required to Staff Beds (Crisis) - Lower": [
     19,
     978
   ],
-  "Critical Care Nurses Required to Staff Beds (Crisis) - Upper": [
+  "Critical Care Nurse Required to Staff Beds (Crisis) - Upper": [
     46,
     2685
   ],
@@ -215,51 +215,51 @@
     0.063,
     0.436
   ],
-  "Respiratory Therapists Required to Staff Beds (Conventional) - Lower [Per 1000 People]": [
+  "Respiratory Therapist Required to Staff Beds (Conventional) - Lower [Per 1000 People]": [
     0.011,
     0.073
   ],
-  "Respiratory Therapists Required to Staff Beds (Conventional) - Lower [Per 1000 Adults (20+)]": [
+  "Respiratory Therapist Required to Staff Beds (Conventional) - Lower [Per 1000 Adults (20+)]": [
     0.014,
     0.1
   ],
-  "Respiratory Therapists Required to Staff Beds (Conventional) - Lower [Per 1000 Elderly (65+)]": [
+  "Respiratory Therapist Required to Staff Beds (Conventional) - Lower [Per 1000 Elderly (65+)]": [
     0.063,
     0.436
   ],
-  "Respiratory Therapists Required to Staff Beds (Conventional) - Upper [Per 1000 People]": [
+  "Respiratory Therapist Required to Staff Beds (Conventional) - Upper [Per 1000 People]": [
     0.011,
     0.073
   ],
-  "Respiratory Therapists Required to Staff Beds (Conventional) - Upper [Per 1000 Adults (20+)]": [
+  "Respiratory Therapist Required to Staff Beds (Conventional) - Upper [Per 1000 Adults (20+)]": [
     0.014,
     0.1
   ],
-  "Respiratory Therapists Required to Staff Beds (Conventional) - Upper [Per 1000 Elderly (65+)]": [
+  "Respiratory Therapist Required to Staff Beds (Conventional) - Upper [Per 1000 Elderly (65+)]": [
     0.064,
     0.436
   ],
-  "Critical Care Nurses Required to Staff Beds (Conventional) - Lower [Per 1000 People]": [
+  "Critical Care Nurse Required to Staff Beds (Conventional) - Lower [Per 1000 People]": [
     0.011,
     0.073
   ],
-  "Critical Care Nurses Required to Staff Beds (Conventional) - Lower [Per 1000 Adults (20+)]": [
+  "Critical Care Nurse Required to Staff Beds (Conventional) - Lower [Per 1000 Adults (20+)]": [
     0.014,
     0.1
   ],
-  "Critical Care Nurses Required to Staff Beds (Conventional) - Lower [Per 1000 Elderly (65+)]": [
+  "Critical Care Nurse Required to Staff Beds (Conventional) - Lower [Per 1000 Elderly (65+)]": [
     0.064,
     0.436
   ],
-  "Critical Care Nurses Required to Staff Beds (Conventional) - Upper [Per 1000 People]": [
+  "Critical Care Nurse Required to Staff Beds (Conventional) - Upper [Per 1000 People]": [
     0.013,
     0.073
   ],
-  "Critical Care Nurses Required to Staff Beds (Conventional) - Upper [Per 1000 Adults (20+)]": [
+  "Critical Care Nurse Required to Staff Beds (Conventional) - Upper [Per 1000 Adults (20+)]": [
     0.017,
     0.1
   ],
-  "Critical Care Nurses Required to Staff Beds (Conventional) - Upper [Per 1000 Elderly (65+)]": [
+  "Critical Care Nurse Required to Staff Beds (Conventional) - Upper [Per 1000 Elderly (65+)]": [
     0.081,
     0.446
   ],
@@ -335,51 +335,51 @@
     0.065,
     0.436
   ],
-  "Respiratory Therapists Required to Staff Beds (Contingency) - Lower [Per 1000 People]": [
+  "Respiratory Therapist Required to Staff Beds (Contingency) - Lower [Per 1000 People]": [
     0.011,
     0.073
   ],
-  "Respiratory Therapists Required to Staff Beds (Contingency) - Lower [Per 1000 Adults (20+)]": [
+  "Respiratory Therapist Required to Staff Beds (Contingency) - Lower [Per 1000 Adults (20+)]": [
     0.014,
     0.1
   ],
-  "Respiratory Therapists Required to Staff Beds (Contingency) - Lower [Per 1000 Elderly (65+)]": [
+  "Respiratory Therapist Required to Staff Beds (Contingency) - Lower [Per 1000 Elderly (65+)]": [
     0.063,
     0.436
   ],
-  "Respiratory Therapists Required to Staff Beds (Contingency) - Upper [Per 1000 People]": [
+  "Respiratory Therapist Required to Staff Beds (Contingency) - Upper [Per 1000 People]": [
     0.011,
     0.073
   ],
-  "Respiratory Therapists Required to Staff Beds (Contingency) - Upper [Per 1000 Adults (20+)]": [
+  "Respiratory Therapist Required to Staff Beds (Contingency) - Upper [Per 1000 Adults (20+)]": [
     0.015,
     0.1
   ],
-  "Respiratory Therapists Required to Staff Beds (Contingency) - Upper [Per 1000 Elderly (65+)]": [
+  "Respiratory Therapist Required to Staff Beds (Contingency) - Upper [Per 1000 Elderly (65+)]": [
     0.067,
     0.436
   ],
-  "Critical Care Nurses Required to Staff Beds (Contingency) - Lower [Per 1000 People]": [
+  "Critical Care Nurse Required to Staff Beds (Contingency) - Lower [Per 1000 People]": [
     0.011,
     0.073
   ],
-  "Critical Care Nurses Required to Staff Beds (Contingency) - Lower [Per 1000 Adults (20+)]": [
+  "Critical Care Nurse Required to Staff Beds (Contingency) - Lower [Per 1000 Adults (20+)]": [
     0.015,
     0.1
   ],
-  "Critical Care Nurses Required to Staff Beds (Contingency) - Lower [Per 1000 Elderly (65+)]": [
+  "Critical Care Nurse Required to Staff Beds (Contingency) - Lower [Per 1000 Elderly (65+)]": [
     0.066,
     0.436
   ],
-  "Critical Care Nurses Required to Staff Beds (Contingency) - Upper [Per 1000 People]": [
+  "Critical Care Nurse Required to Staff Beds (Contingency) - Upper [Per 1000 People]": [
     0.016,
     0.075
   ],
-  "Critical Care Nurses Required to Staff Beds (Contingency) - Upper [Per 1000 Adults (20+)]": [
+  "Critical Care Nurse Required to Staff Beds (Contingency) - Upper [Per 1000 Adults (20+)]": [
     0.021,
     0.103
   ],
-  "Critical Care Nurses Required to Staff Beds (Contingency) - Upper [Per 1000 Elderly (65+)]": [
+  "Critical Care Nurse Required to Staff Beds (Contingency) - Upper [Per 1000 Elderly (65+)]": [
     0.104,
     0.48
   ],
@@ -455,51 +455,51 @@
     0.065,
     0.436
   ],
-  "Respiratory Therapists Required to Staff Beds (Crisis) - Lower [Per 1000 People]": [
+  "Respiratory Therapist Required to Staff Beds (Crisis) - Lower [Per 1000 People]": [
     0.011,
     0.073
   ],
-  "Respiratory Therapists Required to Staff Beds (Crisis) - Lower [Per 1000 Adults (20+)]": [
+  "Respiratory Therapist Required to Staff Beds (Crisis) - Lower [Per 1000 Adults (20+)]": [
     0.014,
     0.1
   ],
-  "Respiratory Therapists Required to Staff Beds (Crisis) - Lower [Per 1000 Elderly (65+)]": [
+  "Respiratory Therapist Required to Staff Beds (Crisis) - Lower [Per 1000 Elderly (65+)]": [
     0.065,
     0.436
   ],
-  "Respiratory Therapists Required to Staff Beds (Crisis) - Upper [Per 1000 People]": [
+  "Respiratory Therapist Required to Staff Beds (Crisis) - Upper [Per 1000 People]": [
     0.02,
     0.082
   ],
-  "Respiratory Therapists Required to Staff Beds (Crisis) - Upper [Per 1000 Adults (20+)]": [
+  "Respiratory Therapist Required to Staff Beds (Crisis) - Upper [Per 1000 Adults (20+)]": [
     0.027,
     0.112
   ],
-  "Respiratory Therapists Required to Staff Beds (Crisis) - Upper [Per 1000 Elderly (65+)]": [
+  "Respiratory Therapist Required to Staff Beds (Crisis) - Upper [Per 1000 Elderly (65+)]": [
     0.126,
     0.49
   ],
-  "Critical Care Nurses Required to Staff Beds (Crisis) - Lower [Per 1000 People]": [
+  "Critical Care Nurse Required to Staff Beds (Crisis) - Lower [Per 1000 People]": [
     0.02,
     0.082
   ],
-  "Critical Care Nurses Required to Staff Beds (Crisis) - Lower [Per 1000 Adults (20+)]": [
+  "Critical Care Nurse Required to Staff Beds (Crisis) - Lower [Per 1000 Adults (20+)]": [
     0.027,
     0.112
   ],
-  "Critical Care Nurses Required to Staff Beds (Crisis) - Lower [Per 1000 Elderly (65+)]": [
+  "Critical Care Nurse Required to Staff Beds (Crisis) - Lower [Per 1000 Elderly (65+)]": [
     0.126,
     0.49
   ],
-  "Critical Care Nurses Required to Staff Beds (Crisis) - Upper [Per 1000 People]": [
+  "Critical Care Nurse Required to Staff Beds (Crisis) - Upper [Per 1000 People]": [
     0.063,
     0.177
   ],
-  "Critical Care Nurses Required to Staff Beds (Crisis) - Upper [Per 1000 Adults (20+)]": [
+  "Critical Care Nurse Required to Staff Beds (Crisis) - Upper [Per 1000 Adults (20+)]": [
     0.083,
     0.224
   ],
-  "Critical Care Nurses Required to Staff Beds (Crisis) - Upper [Per 1000 Elderly (65+)]": [
+  "Critical Care Nurse Required to Staff Beds (Crisis) - Upper [Per 1000 Elderly (65+)]": [
     0.38,
     1.454
   ]
