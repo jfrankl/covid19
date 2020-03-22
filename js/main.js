@@ -2,17 +2,11 @@ mapboxgl.accessToken =
   "pk.eyJ1IjoiYXphdmVhIiwiYSI6IkFmMFBYUUUifQ.eYn6znWt8NzYOa3OrWop8A";
 
 function numberWithCommas(x) {
-  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
-
-function titleCase(str) {
-  return str
-    .toLowerCase()
-    .split(" ")
-    .map(function(word) {
-      return word.charAt(0).toUpperCase() + word.slice(1);
-    })
-    .join(" ");
+  return Number.isInteger(x)
+    ? x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+    : !isNaN(x)
+    ? x.toFixed(2)
+    : "N/A";
 }
 
 function removeLayerAndSource(map, layer) {
@@ -49,7 +43,7 @@ function setScenario(newScenario) {
 }
 
 function setIndicator(newIndicator) {
-  var el = this.event.toElement;
+  var el = this.event.target;
   el.parentNode.querySelectorAll("#indicator button").forEach(function(item) {
     item.classList.remove("active");
   });
@@ -58,100 +52,117 @@ function setIndicator(newIndicator) {
   onMapChange();
 }
 
+function setNumber() {
+  number = this.event.target.value;
+  onMapChange();
+}
+
 function onMapChange() {
-  map.off("mousemove", "facility-circle", updatePopup);
-  map.off("mouseleave", "facility-circle", removePopup);
-  map.off("mousemove", "county-fill", updatePopup);
-  map.off("mouseleave", "county-fill", removePopup);
   map.off("mousemove", "state-fill", updatePopup);
   map.off("mouseleave", "state-fill", removePopup);
-  if (type === "facility") {
-    setCirclePaintStyle("facility-circle");
-    resetFillPaintStyle("state-fill");
-    resetFillPaintStyle("county-fill");
-    resetLinePaintStyle("state-line");
-    resetLinePaintStyle("county-line");
-    map.on("mousemove", "facility-circle", updatePopup);
-    map.on("mouseleave", "facility-circle", removePopup);
-  } else if (type === "county") {
-    setFillPaintStyle("county-fill");
-    setLinePaintStyle("county-line");
-    resetFillPaintStyle("state-fill");
-    resetCirclePaintStyle("facility-circle");
-    resetLinePaintStyle("state-line");
-    map.on("mousemove", "county-fill", updatePopup);
-    map.on("mouseleave", "county-fill", removePopup);
-  } else if (type === "state") {
+  map.off("mousemove", "county-fill", updatePopup);
+  map.off("mouseleave", "county-fill", removePopup);
+  map.off("mousemove", "hrr-fill", updatePopup);
+  map.off("mouseleave", "hrr-fill", removePopup);
+  map.off("mousemove", "facility-circle", updatePopup);
+  map.off("mouseleave", "facility-circle", removePopup);
+  resetFillPaintStyle("state-fill");
+  resetLinePaintStyle("state-line");
+  resetFillPaintStyle("county-fill");
+  resetLinePaintStyle("county-line");
+  resetFillPaintStyle("hrr-fill");
+  resetLinePaintStyle("hrr-line");
+  resetCirclePaintStyle("facility-circle");
+  if (usePerCaptia()) {
+    document.getElementById("number").classList.remove("disabled");
+  } else {
+    document.getElementById("number").classList.add("disabled");
+  }
+  if (type === 0) {
     setFillPaintStyle("state-fill");
     setLinePaintStyle("state-line");
-    resetFillPaintStyle("county-fill");
-    resetCirclePaintStyle("facility-circle");
-    resetLinePaintStyle("county-line");
     map.on("mousemove", "state-fill", updatePopup);
     map.on("mouseleave", "state-fill", removePopup);
+  } else if (type === 1) {
+    setFillPaintStyle("county-fill");
+    setLinePaintStyle("county-line");
+    map.on("mousemove", "county-fill", updatePopup);
+    map.on("mouseleave", "county-fill", removePopup);
+  } else if (type === 2) {
+    setFillPaintStyle("hrr-fill");
+    setLinePaintStyle("hrr-line");
+    map.on("mousemove", "hrr-fill", updatePopup);
+    map.on("mouseleave", "hrr-fill", removePopup);
+  } else if (type === 3) {
+    setCirclePaintStyle("facility-circle");
+    map.on("mousemove", "facility-circle", updatePopup);
+    map.on("mouseleave", "facility-circle", removePopup);
   }
 }
 
-var defaultCircleRadius = ["interpolate", ["linear"], ["zoom"], 3, 0, 10, 0];
-var defaultCircleColor = "#000";
+var defaultCircleRadius = 0;
+var defaultCircleColor = "transparent";
 
-var type = "county";
-var scenario = "conventional";
-var indicator = "beds";
+var type = 1;
+var number = 1;
+var indicator = 0;
 
-var dictionary = {
-  beds: {
-    conventional: "Estimated Beds Available (Conventional) - Lower",
-    contingency: "Estimated Beds Available (Contingency) - Lower",
-    crisis: "Estimated Beds Available (Crisis) - Lower",
-    colors: {
-      colorFirst: "#e0ecf4",
-      colorLast: "#8856a7"
-    }
+var types = [
+  {
+    id: "state",
+    label: "State",
+    nameProperty: "State Name",
+    includeState: false
   },
-  vent: {
-    conventional:
-      "Estimated Additional Ventilators Required (Conventional) - Lower",
-    contingency:
-      "Estimated Additional Ventilators Required (Contingency) - Lower",
-    crisis: "Estimated Additional Ventilators Required (Crisis) - Lower",
-    colors: {
-      colorFirst: "#ece7f2",
-      colorLast: "#2b8cbe"
-    }
+  {
+    id: "county",
+    label: "County",
+    nameProperty: "County Name",
+    includeState: true
   },
-  physicians: {
-    conventional: "Physicians Required to Staff Beds (Conventional) - Lower",
-    contingency: "Physicians Required to Staff Beds (Contingency) - Lower",
-    crisis: "Physicians Required to Staff Beds (Crisis) - Lower",
-    colors: {
-      colorFirst: "#e5f5f9",
-      colorLast: "#2ca25f"
-    }
-  },
-  rt: {
-    conventional:
-      "Respiratory Therapist Required to Staff Beds (Conventional) - Lower",
-    contingency:
-      "Respiratory Therapist Required to Staff Beds (Contingency) - Lower",
-    crisis: "Respiratory Therapist Required to Staff Beds (Crisis) - Lower",
-    colors: {
-      colorFirst: "#D6EDEA",
-      colorLast: "#345672"
-    }
-  },
-  nurses: {
-    conventional:
-      "Critical Care Nurse Required to Staff Beds (Conventional) - Lower",
-    contingency:
-      "Critical Care Nurse Required to Staff Beds (Contingency) - Lower",
-    crisis: "Critical Care Nurse Required to Staff Beds (Crisis) - Lower",
-    colors: {
-      colorFirst: "#EDCDD3",
-      colorLast: "#632864"
-    }
+  { id: "hrr", label: "HRR", nameProperty: "HRRCITY", includeState: false },
+  {
+    id: "facility",
+    label: "Facility",
+    nameProperty: "Name",
+    includeState: false
   }
-};
+];
+
+var numbers = [
+  { label: "normal", stringInData: "" },
+  { label: "per 100 people", stringInData: " [Per 1000 People]" },
+  { label: "per 1000 adults (20+)", stringInData: " [Per 1000 Adults (20+)]" },
+  { label: "per 1000 elderly (65+)", stringInData: " [Per 1000 Elderly (65+)]" }
+];
+
+var indicators = [
+  {
+    propertyInData: "Staffed All Beds",
+    label: "Staffed All Beds",
+    colors: ["#e0ecf4", "#8856a7"]
+  },
+  {
+    propertyInData: "Staffed ICU Beds",
+    label: "Staffed ICU Beds",
+    colors: ["#ece7f2", "#2b8cbe"]
+  },
+  {
+    propertyInData: "Licensed All Beds",
+    label: "Licensed All Beds",
+    colors: ["#e5f5f9", "#2ca25f"]
+  },
+  {
+    propertyInData: "All Bed Occupancy Rate",
+    label: "All Bed Occupancy Rate",
+    colors: ["#D6EDEA", "#345672"]
+  },
+  {
+    propertyInData: "ICU Bed Occupancy Rate",
+    label: "ICU Bed Occupancy Rate",
+    colors: ["#EDCDD3", "#632864"]
+  }
+];
 
 var map = new mapboxgl.Map({
   container: "map",
@@ -163,12 +174,16 @@ var map = new mapboxgl.Map({
   hash: true
 });
 
-// var nav = new mapboxgl.NavigationControl({
-//   showCompass: false,
-//   showZoom: true
-// });
+var nav = new mapboxgl.NavigationControl({
+  showCompass: false,
+  showZoom: true
+});
 
-// map.addControl(nav, "top-right");
+map.addControl(nav, "top-right");
+
+map.dragRotate.disable();
+
+map.touchZoomRotate.disableRotation();
 
 var popup;
 
@@ -186,34 +201,27 @@ var popup = new mapboxgl.Popup({
 });
 
 function updatePopup(event) {
-  if (type === "county") {
-    var name = `${event.features[0].properties["NAME"]} County`;
-  } else if (type === "facility") {
-    var name = (event.features[0].properties["Name"] = titleCase(
-      event.features[0].properties["Name"]
-    ));
-  } else if (type === "state") {
-    var name = event.features[0].properties["NAME"];
-  }
-  var beds = numberWithCommas(
-    event.features[0].properties[dictionary["beds"][scenario]]
-  );
-  var vent = numberWithCommas(
-    event.features[0].properties[dictionary["vent"][scenario]]
-  );
-  var physicians = numberWithCommas(
-    event.features[0].properties[dictionary["physicians"][scenario]]
-  );
-  var rt = numberWithCommas(
-    event.features[0].properties[dictionary["rt"][scenario]]
-  );
-  var nurses = numberWithCommas(
-    event.features[0].properties[dictionary["nurses"][scenario]]
-  );
+  var feature = event.features[0];
+  var nameProperty = types[type]["nameProperty"];
+  var name = feature.properties[nameProperty];
 
-  popup.setHTML(
-    `<h1>${name}</h1><table><tr><th>Estimated Beds</th><td>${beds}</td></tr><tr><th>Additional ventilators required</th><td>${vent}</td></tr><tr><th>Physicians required</th><td>${physicians}</td></tr><tr><th>Resp. therapists required</th><td>${rt}</td></tr><tr><th>Nurses required</th><td>${nurses}</td></tr></table>`
-  );
+  if (types[type].includeState) {
+    name += ", " + feature.properties["State"];
+  }
+
+  var rows = indicators
+    .map(function(theIndicator, i) {
+      return (
+        "<tr><th>" +
+        theIndicator.label +
+        "</th><td>" +
+        numberWithCommas(feature.properties[getProperty(i)]) +
+        "</td></tr>"
+      );
+    })
+    .join("");
+
+  popup.setHTML(`<h1>${name}</h1><table>${rows}</table>`);
   popup.setLngLat(event.lngLat).addTo(map);
   map.getCanvas().style.cursor = "pointer";
 }
@@ -226,6 +234,7 @@ function removePopup() {
 function resetCirclePaintStyle(layerName) {
   map.setPaintProperty(layerName, "circle-radius", defaultCircleRadius);
   map.setPaintProperty(layerName, "circle-color", defaultCircleColor);
+  map.setLayoutProperty(layerName, "visibility", "none");
 }
 
 function resetLinePaintStyle(layerName) {
@@ -240,19 +249,36 @@ function resetFillPaintStyle(layerName) {
   map.setPaintProperty(layerName, "fill-color", "transparent");
 }
 
+function usePerCaptia() {
+  return number !== 3 && indicator !== 3 && indicator !== 4 && type !== 3;
+}
+
+function getProperty(theIndicator) {
+  var indicatorProperty = indicators[theIndicator]["propertyInData"];
+  if (usePerCaptia()) {
+    indicatorProperty += numbers[number]["stringInData"];
+  }
+  return indicatorProperty;
+}
+
+function getMinMax() {
+  console.log(minMax[type], getProperty(indicator));
+  return minMax[type][getProperty(indicator)];
+}
+
 function setFillPaintStyle(layerName) {
-  var colors = dictionary[indicator].colors;
-  var minMaxValues = minMax[type][dictionary[indicator][scenario]];
+  var colors = indicators[indicator].colors;
+  var minMaxValues = getMinMax();
   setLegend(colors, minMaxValues);
 
   map.setPaintProperty(layerName, "fill-color", [
     "interpolate",
     ["linear"],
-    ["get", dictionary[indicator][scenario]],
+    ["get", getProperty(indicator)],
     minMaxValues[0],
-    colors.colorFirst,
-    minMaxValues[1] + 1,
-    colors.colorLast
+    colors[0],
+    minMaxValues[1],
+    colors[1]
   ]);
 }
 
@@ -265,12 +291,16 @@ function setLegend(colors, minMaxValues) {
   );
   document.getElementById(
     "colors"
-  ).style.backgroundImage = `linear-gradient(to right, ${colors.colorFirst}, ${colors.colorLast})`;
+  ).style.backgroundImage = `linear-gradient(to right, ${colors[0]}, ${
+    colors[1]
+  })`;
 }
 
 function setCirclePaintStyle(layerName) {
-  var colors = dictionary[indicator].colors;
-  var minMaxValues = minMax[type][dictionary[indicator][scenario]];
+  var colors = indicators[indicator].colors;
+  var minMaxValues = getMinMax();
+  console.log(colors, minMaxValues);
+  map.setLayoutProperty(layerName, "visibility", "visible");
   setLegend(colors, minMaxValues);
 
   map.setPaintProperty(layerName, "circle-radius", [
@@ -281,20 +311,20 @@ function setCirclePaintStyle(layerName) {
     [
       "interpolate",
       ["linear"],
-      ["get", dictionary[indicator][scenario]],
+      ["get", getProperty(indicator)],
       minMaxValues[0],
       1,
-      minMaxValues[1] + 1,
+      minMaxValues[1],
       20
     ],
     10,
     [
       "interpolate",
       ["linear"],
-      ["get", dictionary[indicator][scenario]],
+      ["get", getProperty(indicator)],
       minMaxValues[0],
       5,
-      minMaxValues[1] + 1,
+      minMaxValues[1],
       50
     ]
   ]);
@@ -302,11 +332,11 @@ function setCirclePaintStyle(layerName) {
   map.setPaintProperty(layerName, "circle-color", [
     "interpolate",
     ["linear"],
-    ["get", dictionary[indicator][scenario]],
+    ["get", getProperty(indicator)],
     minMaxValues[0],
-    colors.colorFirst,
-    minMaxValues[1] + 1,
-    colors.colorLast
+    colors[0],
+    minMaxValues[1],
+    colors[1]
   ]);
 }
 
@@ -315,13 +345,11 @@ var minMax = undefined;
 
 map.on("load", function() {
   const urls = [
-    "/data/mock_facility_data.geojson",
-    "/data/state-minmax.json",
-    "/data/county-minmax.json",
-    "/data/facility-minmax.json"
+    "/data/ccm_state_min_max_values.json",
+    "/data/ccm_county_min_max_values.json",
+    "/data/ccm_hrr_min_max_values.json",
+    "/data/ccm_facility_min_max_values.json"
   ];
-
-  // use map() to perform a fetch and handle the response for each url
   Promise.all(
     urls.map(url =>
       fetch(url).then(function(response) {
@@ -329,12 +357,7 @@ map.on("load", function() {
       })
     )
   ).then(data => {
-    facilities = data[0];
-    minMax = {
-      state: data[1],
-      county: data[2],
-      facility: data[3]
-    };
+    minMax = [data[0], data[1], data[2], data[3]];
 
     map.addSource("boundaries", {
       type: "vector",
@@ -348,7 +371,7 @@ map.on("load", function() {
         id: "county-fill",
         type: "fill",
         source: "boundaries",
-        "source-layer": "mock_county_data",
+        "source-layer": "county",
         paint: {
           "fill-color": "transparent"
         }
@@ -361,7 +384,35 @@ map.on("load", function() {
         id: "county-line",
         type: "line",
         source: "boundaries",
-        "source-layer": "mock_county_data",
+        "source-layer": "county",
+        paint: {
+          "line-width": ["interpolate", ["linear"], ["zoom"], 3, 0.25, 10, 2],
+          "line-color": "#000",
+          "line-opacity": 0.25
+        }
+      },
+      "road-label"
+    );
+
+    map.addLayer(
+      {
+        id: "hrr-fill",
+        type: "fill",
+        source: "boundaries",
+        "source-layer": "hrr",
+        paint: {
+          "fill-color": "transparent"
+        }
+      },
+      "road-label"
+    );
+
+    map.addLayer(
+      {
+        id: "hrr-line",
+        type: "line",
+        source: "boundaries",
+        "source-layer": "hrr",
         paint: {
           "line-width": ["interpolate", ["linear"], ["zoom"], 3, 0.25, 10, 2],
           "line-color": "#000",
@@ -376,7 +427,7 @@ map.on("load", function() {
         id: "state-line",
         type: "line",
         source: "boundaries",
-        "source-layer": "mock_state_data",
+        "source-layer": "state",
         paint: {
           "line-width": ["interpolate", ["linear"], ["zoom"], 3, 0.75, 10, 4],
           "line-color": "#000",
@@ -391,7 +442,7 @@ map.on("load", function() {
         id: "state-fill",
         type: "fill",
         source: "boundaries",
-        "source-layer": "mock_state_data",
+        "source-layer": "state",
         paint: {
           "fill-color": "transparent"
         }
@@ -399,16 +450,17 @@ map.on("load", function() {
       "state-line"
     );
 
-    map.addSource("facility", {
-      type: "geojson",
-      data: facilities
-    });
+    // map.addSource("facility", {
+    //   type: "geojson",
+    //   data: facilities
+    // });
 
     map.addLayer(
       {
         id: "facility-circle",
         type: "circle",
-        source: "facility",
+        source: "boundaries",
+        "source-layer": "facility",
         paint: {
           "circle-radius": defaultCircleRadius,
           "circle-color": defaultCircleColor,
@@ -427,6 +479,7 @@ map.on("load", function() {
       },
       "road-label"
     );
+
     onMapChange();
   });
 });
