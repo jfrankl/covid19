@@ -1,12 +1,23 @@
 mapboxgl.accessToken =
   "pk.eyJ1IjoiYXphdmVhIiwiYSI6IkFmMFBYUUUifQ.eYn6znWt8NzYOa3OrWop8A";
 
-function numberWithCommas(x) {
-  return Number.isInteger(x)
-    ? x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-    : !isNaN(x)
-    ? x.toFixed(2)
-    : "N/A";
+var defaultCircleRadius = 0;
+var defaultCircleColor = "transparent";
+
+var type = 2;
+var number = 1;
+var indicator = 0;
+
+function formatNumber(x, theIndicator) {
+  if (isNaN(x)) {
+    return "N/A";
+  } else if (indicators[theIndicator].displayAsPercent) {
+    return (x * 100).toFixed(0) + "%";
+  } else if (Number.isInteger(x)) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  } else {
+    return x.toFixed(2);
+  }
 }
 
 function removeLayerAndSource(map, layer) {
@@ -73,7 +84,7 @@ function onMapChange() {
   resetFillPaintStyle("hrr-fill");
   resetLinePaintStyle("hrr-line");
   resetCirclePaintStyle("facility-circle");
-  if (usePerCaptia()) {
+  if (usePerCapita(indicator)) {
     document.getElementById("number").classList.remove("disabled");
   } else {
     document.getElementById("number").classList.add("disabled");
@@ -84,15 +95,15 @@ function onMapChange() {
     map.on("mousemove", "state-fill", updatePopup);
     map.on("mouseleave", "state-fill", removePopup);
   } else if (type === 1) {
-    setFillPaintStyle("county-fill");
-    setLinePaintStyle("county-line");
-    map.on("mousemove", "county-fill", updatePopup);
-    map.on("mouseleave", "county-fill", removePopup);
-  } else if (type === 2) {
     setFillPaintStyle("hrr-fill");
     setLinePaintStyle("hrr-line");
     map.on("mousemove", "hrr-fill", updatePopup);
     map.on("mouseleave", "hrr-fill", removePopup);
+  } else if (type === 2) {
+    setFillPaintStyle("county-fill");
+    setLinePaintStyle("county-line");
+    map.on("mousemove", "county-fill", updatePopup);
+    map.on("mouseleave", "county-fill", removePopup);
   } else if (type === 3) {
     setCirclePaintStyle("facility-circle");
     map.on("mousemove", "facility-circle", updatePopup);
@@ -100,38 +111,40 @@ function onMapChange() {
   }
 }
 
-var defaultCircleRadius = 0;
-var defaultCircleColor = "transparent";
-
-var type = 1;
-var number = 1;
-var indicator = 0;
-
 var types = [
   {
     id: "state",
     label: "State",
     nameProperty: "State Name",
+    minMaxUrl: "/data/ccm_state_min_max_values.json",
+    includeState: false
+  },
+  {
+    id: "hrr",
+    label: "HRR",
+    nameProperty: "HRRCITY",
+    minMaxUrl: "/data/ccm_hrr_min_max_values.json",
     includeState: false
   },
   {
     id: "county",
     label: "County",
     nameProperty: "County Name",
+    minMaxUrl: "/data/ccm_county_min_max_values.json",
     includeState: true
   },
-  { id: "hrr", label: "HRR", nameProperty: "HRRCITY", includeState: false },
   {
     id: "facility",
     label: "Facility",
     nameProperty: "Name",
+    minMaxUrl: "/data/ccm_facility_min_max_values.json",
     includeState: false
   }
 ];
 
 var numbers = [
-  { label: "normal", stringInData: "" },
-  { label: "per 100 people", stringInData: " [Per 1000 People]" },
+  { label: "", stringInData: "" },
+  { label: "per 1000 people", stringInData: " [Per 1000 People]" },
   { label: "per 1000 adults (20+)", stringInData: " [Per 1000 Adults (20+)]" },
   { label: "per 1000 elderly (65+)", stringInData: " [Per 1000 Elderly (65+)]" }
 ];
@@ -140,27 +153,32 @@ var indicators = [
   {
     propertyInData: "Staffed All Beds",
     label: "Staffed All Beds",
-    colors: ["#e0ecf4", "#8856a7"]
+    colors: ["#e0ecf4", "#8856a7"],
+    displayAsPercent: false
   },
   {
     propertyInData: "Staffed ICU Beds",
     label: "Staffed ICU Beds",
-    colors: ["#ece7f2", "#2b8cbe"]
+    colors: ["#ece7f2", "#2b8cbe"],
+    displayAsPercent: false
   },
   {
     propertyInData: "Licensed All Beds",
     label: "Licensed All Beds",
-    colors: ["#e5f5f9", "#2ca25f"]
+    colors: ["#e5f5f9", "#2ca25f"],
+    displayAsPercent: false
   },
   {
     propertyInData: "All Bed Occupancy Rate",
     label: "All Bed Occupancy Rate",
-    colors: ["#D6EDEA", "#345672"]
+    colors: ["#D6EDEA", "#345672"],
+    displayAsPercent: true
   },
   {
     propertyInData: "ICU Bed Occupancy Rate",
     label: "ICU Bed Occupancy Rate",
-    colors: ["#EDCDD3", "#632864"]
+    colors: ["#EDCDD3", "#632864"],
+    displayAsPercent: true
   }
 ];
 
@@ -209,19 +227,37 @@ function updatePopup(event) {
     name += ", " + feature.properties["State"];
   }
 
-  var rows = indicators
-    .map(function(theIndicator, i) {
-      return (
-        "<tr><th>" +
-        theIndicator.label +
-        "</th><td>" +
-        numberWithCommas(feature.properties[getProperty(i)]) +
-        "</td></tr>"
-      );
-    })
-    .join("");
+  // var rows = indicators
+  //   .map(function(theIndicator, i) {
+  //     var perCapita = usePerCapita(i) ? " " + numbers[number].label : "";
+  //     return (
+  //       "<tr><th>" +
+  //       theIndicator.label +
+  //       perCapita +
+  //       "</th><td>" +
+  //       formatNumber(feature.properties[getProperty(i)], i) +
+  //       "</td></tr>"
+  //     );
+  //   })
+  //   .join("");
 
-  popup.setHTML(`<h1>${name}</h1><table>${rows}</table>`);
+  // popup.setHTML(`<h1>${name}</h1><table>${rows}</table>`);
+
+  // console.log(indicators[indicator].label);
+
+  var perCapita = usePerCapita(indicator) ? " " + numbers[number].label : "";
+
+  popup.setHTML(
+    "<div class='tooltip-heading'>" +
+      name +
+      "</div>" +
+      "<div class='tooltip-number'>" +
+      formatNumber(feature.properties[getProperty(indicator)], indicator) +
+      "</div>" +
+      indicators[indicator].label +
+      " " +
+      perCapita
+  );
   popup.setLngLat(event.lngLat).addTo(map);
   map.getCanvas().style.cursor = "pointer";
 }
@@ -249,20 +285,19 @@ function resetFillPaintStyle(layerName) {
   map.setPaintProperty(layerName, "fill-color", "transparent");
 }
 
-function usePerCaptia() {
-  return number !== 3 && indicator !== 3 && indicator !== 4 && type !== 3;
+function usePerCapita(theIndicator) {
+  return number !== 0 && theIndicator !== 3 && theIndicator !== 4 && type !== 3;
 }
 
 function getProperty(theIndicator) {
   var indicatorProperty = indicators[theIndicator]["propertyInData"];
-  if (usePerCaptia()) {
+  if (usePerCapita(theIndicator)) {
     indicatorProperty += numbers[number]["stringInData"];
   }
   return indicatorProperty;
 }
 
 function getMinMax() {
-  console.log(minMax[type], getProperty(indicator));
   return minMax[type][getProperty(indicator)];
 }
 
@@ -274,7 +309,7 @@ function setFillPaintStyle(layerName) {
   map.setPaintProperty(layerName, "fill-color", [
     "interpolate",
     ["linear"],
-    ["get", getProperty(indicator)],
+    ["number", ["get", getProperty(indicator)], minMaxValues[0]],
     minMaxValues[0],
     colors[0],
     minMaxValues[1],
@@ -283,11 +318,13 @@ function setFillPaintStyle(layerName) {
 }
 
 function setLegend(colors, minMaxValues) {
-  document.getElementById("legend-min").innerHTML = numberWithCommas(
-    minMaxValues[0]
+  document.getElementById("legend-min").innerHTML = formatNumber(
+    minMaxValues[0],
+    indicator
   );
-  document.getElementById("legend-max").innerHTML = numberWithCommas(
-    minMaxValues[1]
+  document.getElementById("legend-max").innerHTML = formatNumber(
+    minMaxValues[1],
+    indicator
   );
   document.getElementById(
     "colors"
@@ -299,7 +336,6 @@ function setLegend(colors, minMaxValues) {
 function setCirclePaintStyle(layerName) {
   var colors = indicators[indicator].colors;
   var minMaxValues = getMinMax();
-  console.log(colors, minMaxValues);
   map.setLayoutProperty(layerName, "visibility", "visible");
   setLegend(colors, minMaxValues);
 
@@ -344,15 +380,9 @@ var facilities = undefined;
 var minMax = undefined;
 
 map.on("load", function() {
-  const urls = [
-    "/data/ccm_state_min_max_values.json",
-    "/data/ccm_county_min_max_values.json",
-    "/data/ccm_hrr_min_max_values.json",
-    "/data/ccm_facility_min_max_values.json"
-  ];
   Promise.all(
-    urls.map(url =>
-      fetch(url).then(function(response) {
+    types.map(type =>
+      fetch(type.minMaxUrl).then(function(response) {
         return response.json();
       })
     )
