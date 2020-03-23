@@ -29,98 +29,132 @@
       </p>
     <![endif]-->
     <div class="app">
-      <div class="sidebar">
-        <div class="content">
+      <div class="header">
+        <div class="logo">
           <img
             src="/img/covidcaremap-logo.png"
+            height="18"
             alt="COVIDCareMap"
-            height="28"
           />
+        </div>
+        <nav>
+          <a href="">About/Methodology</a><a href="">Github</a
+          ><a href="">Download data</a>
+        </nav>
+      </div>
+      <div class="sidebar">
+        <div class="content">
           <p class="large">
-            We are mapping existing and forecasted health system capacity gaps
-            for beds, staffing, ventilators, supplies to care for surging
-            numbers of COVID19 patients.
+            Open map data on US health system capacity to care for COVID-19
+            patients for all hospital facilities nationwide
           </p>
           <p>
-            We can say more about the methodology here. Lorem ipsum dolor sit
-            amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt
-            ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-            nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-            consequat.
+            We use open data on hospital bed capacity to provide a current view
+            of the US health system's capacity to care for severely ill COVID-19
+            patients. See our <a href="#">project page</a> for methodology
+            notes, data sources, data processing notebooks, and code, all of
+            which are open-sourced and freely available to use as is, adapt, and
+            build on.
           </p>
           <hr />
-          <div class="links">
-            <a href="#" class="link">
-              <div class="icon"><i class="icon-download"></i></div>
-              <div class="text">Download data</div>
-            </a>
-            <a href="#" class="link">
-              <div class="icon"><i class="icon-question-circle"></i></div>
-              <div class="text">Read our methodology</div>
-            </a>
-            <a href="#" class="link">
-              <div class="icon"><i class="icon-github"></i></div>
-              <div class="text">Contribute code</div>
-            </a>
+          <div class="map-options menu" id="indicator">
+            <button class="active" onclick="setIndicator(0)">
+              <div class="button-icon" style="color: #8856a7">
+                <i class="icon-eye"></i>
+                <i class="icon-eye-off"></i>
+              </div>
+              <div class="button-text">
+                <div class="button-label">Staffed All Beds</div>
+                <div class="button-description">
+                  Number of hospital beds of all types typically set up and
+                  staffed for inpatient care
+                </div>
+              </div>
+            </button>
+            <button onclick="setIndicator(1)">
+              <div class="button-icon" style="color: #2b8cbe">
+                <i class="icon-eye"></i>
+                <i class="icon-eye-off"></i>
+              </div>
+              <div class="button-text">
+                <div class="button-label">Staffed ICU Beds</div>
+                <div class="button-description">
+                  Number of ICU beds typically set up and staffed for intensive
+                  inpatient care
+                </div>
+              </div>
+            </button>
+            <button onclick="setIndicator(2)">
+              <div class="button-icon" style="color: #2ca25f">
+                <i class="icon-eye"></i>
+                <i class="icon-eye-off"></i>
+              </div>
+              <div class="button-text">
+                <div class="button-label">Licensed All Beds</div>
+                <div class="button-description">
+                  Number of hospital beds of all types licensed for potential
+                  use
+                </div>
+              </div>
+            </button>
+            <button onclick="setIndicator(3)">
+              <div class="button-icon" style="color: #345672">
+                <i class="icon-eye"></i>
+                <i class="icon-eye-off"></i>
+              </div>
+              <div class="button-text">
+                <div class="button-label">All Bed Occupancy Rate</div>
+                <div class="button-description">
+                  Percent of hospital beds of all types typically occupied by
+                  patients
+                </div>
+              </div>
+            </button>
+            <button onclick="setIndicator(4)">
+              <div class="button-icon" style="color: #632864">
+                <i class="icon-eye"></i>
+                <i class="icon-eye-off"></i>
+              </div>
+              <div class="button-text">
+                <div class="button-label">ICU Bed Occupancy Rate</div>
+                <div class="button-description">
+                  Percent of ICU beds typically occupied by patients
+                </div>
+              </div>
+            </button>
           </div>
-          <!--    <hr />
-        <h2>Indicator</h2> -->
-          <!-- <div class="menu" id="indicator">
-          <button class="active" onclick="setIndicator('beds')">
-            Estimated Beds
-          </button>
-          <button onclick="setIndicator('vent')">
-            Additional ventilators required
-          </button>
-          <button onclick="setIndicator('physicians')">
-            Physicians required
-          </button>
-          <button onclick="setIndicator('rt')">
-            Resp. therapists required
-          </button>
-          <button onclick="setIndicator('nurses')">
-            Nurses required
-          </button>
-        </div> -->
         </div>
       </div>
       <div class="visualization">
         <div class="options-container">
           <div class="primary-options">
             <span class="menu" id="aggregation">
-              <b>Type</b>
-              <button onclick="setType('state')">State</button>
-              <button class="active" onclick="setType('county')">County</button>
-              <button onclick="setType('facility')">Facility</button>
+              <b>Aggregation</b>
+              <button onclick="setType(0)">State</button>
+              <button class="active" onclick="setType(1)">County</button>
+              <button onclick="setType(2)">HRR</button>
+              <button onclick="setType(3)">Facility</button>
             </span>
-            <span class="menu" id="scenario">
+            <span class="menu" id="number">
+              <b>Numbers</b>
+              <select id="numbers-select" onChange="setNumber()">
+                <option value="0">show absolute numbers</option>
+                <option value="1" selected>per 1000 people</option>
+                <option value="2">per 1000 adults (20+)</option>
+                <option value="3">per 1000 elderly (65+)</option>
+              </select>
+            </span>
+            <!--             <span class="menu" id="scenario">
               <b>Scenario</b>
               <button class="active" onclick="setScenario('conventional')">
                 Conventional
               </button>
               <button onclick="setScenario('contingency')">Contingency</button>
               <button onclick="setScenario('crisis')">Crisis</button>
-            </span>
+            </span> -->
           </div>
         </div>
         <div class="map-container">
-          <div class="map-options menu" id="indicator">
-            <button class="active" onclick="setIndicator('beds')">
-              Estimated Beds
-            </button>
-            <button onclick="setIndicator('vent')">
-              Additional ventilators required
-            </button>
-            <button onclick="setIndicator('physicians')">
-              Physicians required
-            </button>
-            <button onclick="setIndicator('rt')">
-              Resp. therapists required
-            </button>
-            <button onclick="setIndicator('nurses')">
-              Nurses required
-            </button>
-          </div>
           <div class="map" id="map">
             <div class="legend">
               <div id="legend-min"></div>
