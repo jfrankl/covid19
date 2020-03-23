@@ -259,7 +259,7 @@ function updatePopup(event) {
       perCapita
   );
   popup.setLngLat(event.lngLat).addTo(map);
-  map.getCanvas().style.cursor = "pointer";
+  map.getCanvas().style.cursor = "default";
 }
 
 function removePopup() {
